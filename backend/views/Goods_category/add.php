@@ -21,8 +21,8 @@ var zTreeObj;
                     //获取被点击节点的id
                     var id= treeNode.id;
                     //alert(treeNode.tId + ", " + treeNode.name);
-                    //将id写入parent_id的值
-                    $("#goodscategory-parent_id").val(id);
+                    //将id写入
+                    $("#goods_category-parent_id").val(id);
                 }
             }
             ,

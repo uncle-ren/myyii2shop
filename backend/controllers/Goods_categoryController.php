@@ -20,8 +20,9 @@ class Goods_categoryController extends Controller{
         $category2 ->prependTo($category1);*/
         $request= new Request();
         if($request->isPost){
-            $model->load($request->post());
 
+            $model->load($request->post());
+            /*var_dump($model);die;*/
             if($model->validate()){
                 if ($model->parent_id == 0){
                     $model->makeRoot();
@@ -60,7 +61,13 @@ class Goods_categoryController extends Controller{
         //删除这条记录
 
         $goods_category= Goods_category::findOne(["id"=>$id]);
-        $goods_category->delete();
+        //判断是否有子节点
+        if($goods_category->isleaf){
+            //再判断是否是父节点
+            if($goods_category->parent_id !=0){
+
+            }
+        }
         if($goods_category->delete()){
             //删除成功
             echo "1";
@@ -77,6 +84,7 @@ class Goods_categoryController extends Controller{
 
             if($model->validate()){
                 if ($model->parent_id == 0){
+                    //再判断
                     $model->makeRoot();
                 }else{
                     $a =Goods_category::findOne(["id"=> $model->parent_id]);

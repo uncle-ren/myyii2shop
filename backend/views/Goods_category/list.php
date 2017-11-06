@@ -19,7 +19,7 @@
         </tr>
     <?php  endforeach; ?>
 </table>
-<a href="add" class="btn btn-danger">添加品牌</a><br/>
+<a href="add" class="btn btn-danger">添加分类</a><br/>
 <!--添加分页工具条-->
 <?php
 echo \yii\widgets\LinkPager::widget([
@@ -62,6 +62,8 @@ $this->registerJs(
                             //修改成功  删除这一行
                             $(that).closest("tr").remove();
                             
+                        }else{
+                            alert("不能删除有子分类的父分类");
                         }
                 })
                 

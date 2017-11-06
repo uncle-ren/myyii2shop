@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 
 use backend\models\Brand;
+use Qiniu\Auth;
+use Qiniu\Storage\UploadManager;
 use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\Request;
@@ -68,5 +70,45 @@ class BrandController extends Controller
         $model->status= -1;
         $model->save(false);
         echo "1";
+    }
+    //ak  faOGFfcRLxWBKwwJOU0wE5S54M5pN9FRB3hgM7kY
+
+    // sk   HqCLWrPu_QGKVPstLLmKc3Mp67Y1gVzfFmtTAOUJ
+
+    public function actionTest(){
+
+
+        // 需要填写你的 Access Key 和 Secret Key
+        $accessKey ="faOGFfcRLxWBKwwJOU0wE5S54M5pN9FRB3hgM7kY";
+        $secretKey = "HqCLWrPu_QGKVPstLLmKc3Mp67Y1gVzfFmtTAOUJ";
+        //对象存储 空间名称
+        $bucket = "php0711";
+
+        // 构建鉴权对象
+        $auth = new Auth($accessKey, $secretKey);
+
+        // 生成上传 Token
+        $token = $auth->uploadToken($bucket);
+
+        // 要上传文件的本地路径
+        $filePath = \Yii::getAlias('@webroot').'/upload/59fe779423988.jpg';
+
+        // 上传到七牛后保存的文件名
+        $key = '/upload/59fe779423988.jpg';
+
+        // 初始化 UploadManager 对象并进行文件的上传。
+        $uploadMgr = new UploadManager();
+
+        // 调用 UploadManager 的 putFile 方法进行文件的上传。
+        list($ret, $err) = $uploadMgr->putFile($token, $key, $filePath);
+        echo "\n====> putFile result: \n";
+        if ($err !== null) {
+            //上传失败 打印错误
+            var_dump($err);
+        } else {
+            //没有出错  打印上传结果
+            var_dump($ret);
+        }
+
     }
 }
