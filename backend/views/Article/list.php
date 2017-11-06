@@ -3,7 +3,8 @@
         <td>文章编号</td>
         <td>文章标题</td>
         <td>简介</td>
-        <td>品牌信息</td>
+        <td>状态</td>
+        <td>添加时间</td>
         <td>操作</td>
     </tr>
 
@@ -13,6 +14,7 @@
             <td><?=$model["name"]?></td>
             <td><?=$model["intro"]?></td>
             <td><?= $model["status"]==0?"隐藏":"正常显示"?></td>
+            <td><?= date("Y年m月d日 H时i分",$model["create_time"])?></td>
             <td><a href="edit?id=<?=$model["id"]?>" class="btn btn-danger">修改</a>　<a href="JavaScript:;" class="del btn btn-info" id="<?=$model["id"]?>">删除</a></td>
         </tr>
     <?php  endforeach; ?>

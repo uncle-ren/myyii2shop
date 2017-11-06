@@ -68,11 +68,9 @@ class ArticleController extends Controller{
 
                 $article->create_time = time();
 //            var_dump($article);die;
-                $article->save();
-                //获取上次操作id
-                $id = $article->getPrimaryKey();
-                $article_detail->article_id = $id;
-                $article_detail->save();
+                $article->save(false);
+                $article_detail->save(false);
+
                 //回到显示页面
                 \Yii::$app->session->setFlash('success','添加成功');
                 return $this->redirect(['list']);
@@ -86,6 +84,7 @@ class ArticleController extends Controller{
 
     }
     public function actionList(){
+        /*echo date("Y-m-d h:i:s",time());die;*/
         //显示分页  实例化分页工具类
         $pager = new Pagination();
         $pager->totalCount = Article::find()->count();

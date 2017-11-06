@@ -47,4 +47,6 @@ return [
         */
     ],
     'params' => $params,
+    'timeZone'=>'PRC',
 ];
+
