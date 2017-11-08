@@ -108,6 +108,7 @@ class BrandController extends Controller
         } else {
             //没有出错  打印上传结果
             var_dump($ret);
+
         }
 
     }

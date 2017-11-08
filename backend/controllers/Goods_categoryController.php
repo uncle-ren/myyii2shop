@@ -35,7 +35,7 @@ class Goods_categoryController extends Controller{
                 return $this->redirect(['goods_category/list']);
             }
         }
-        $model->parent_id=0;
+
        return $this->render("add",["model"=>$model]);
     }
     Public function actionList(){
