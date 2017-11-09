@@ -2,7 +2,7 @@
 <br/>
 <br/>
 <form action="">
-    <input type="text" name="search" value="<?=isset($_GET["search"])?$_GET["search"]:''?>"> 　　<input type="submit" value="点击搜素">
+    <input type="text" name="search" value="<?=isset($_GET["search"])?$_GET["search"]:null?>"> 　　<input type="submit" value="点击搜素">
 </form>
 
 <table class="table table-bordered">

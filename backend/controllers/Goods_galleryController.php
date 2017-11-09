@@ -10,6 +10,7 @@ class Goods_galleryController extends Controller{
     Public $enableCsrfValidation=false;
 
     Public function actionList($id){
+
         //根据商品id显示 对应所有图片
         $model= Goods::findOne(["id"=>$id]);
         $model->view_times= ($model->view_times)+1;

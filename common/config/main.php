@@ -7,6 +7,7 @@ return [
         ],
         "authManager"=>[
             "class"=> 'yii\rbac\DbManager',
+
         ],
         'urlManager'=>[
             'class' => 'yii\web\UrlManager',
@@ -18,5 +19,6 @@ return [
                 '<controller:(post|comment)>s' => '<controller>/list',
             ],
         ],
+        'timeZone'=>'Asia/Chongqing',
     ],
 ];
