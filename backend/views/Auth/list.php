@@ -21,12 +21,12 @@
     <tr>
         <td><?=$key?></td>
         <td><?=$model?></td>
-        <td><a href="" class="btn btn-danger">删除</a>　<a href="" class="btn btn-primary">修改</a></td>
+        <td><a href="JavaScript:;" class="del btn btn-danger" name="<?=$key?>">删除</a>　<a href="edit?name=<?=$key?>" class="btn btn-primary">修改</a></td>
     </tr>
     <?php endforeach;   ?>
     </tbody>
 </table>
-
+<a href="mana" class="btn btn-primary">添加权限</a>
 <?php
 $this->registerJs(
     <<<JS
@@ -39,12 +39,13 @@ $this->registerJs(
             if(confirm("是否删除?删除后可能导致一些列你看不懂的错误!")){
                 //确定后 发送数据到指定位置
                 var that = this;
-                var id = $(this).attr("id");
+                var id = $(this).attr("name");
                 //发送数据
-                $.get("del",{"id":id},function(data) {
+                $.get("delmana",{"name":id},function(data) {
                         //在edit中执行删除操作
                         if(data=="1"){
                             //修改成功  删除这一行
+                            
                             $(that).closest("tr").remove();
                             
                         }else{

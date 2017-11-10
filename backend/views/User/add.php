@@ -13,6 +13,6 @@ if($model->getIsNewRecord()){
 //邮箱
 echo $form->field($model,'email')->label("邮箱");
 
-
+echo $form->field($model,'role')->checkboxList($roles)->label("选择职位");
 echo \yii\bootstrap\Html::submitButton($model->getIsNewRecord()?"立即注册":'修改',['class'=>'btn btn-info']);
 \yii\bootstrap\ActiveForm::end();

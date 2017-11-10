@@ -26,7 +26,7 @@
     <?php endforeach;   ?>
     </tbody>
 </table>
-
+<a href="add" class="btn btn-primary">添加角色</a>
 <?php
 $this->registerJs(
     <<<JS

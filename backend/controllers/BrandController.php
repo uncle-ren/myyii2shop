@@ -17,7 +17,7 @@ class BrandController extends Controller
     {
         $model = new Brand();
         $request = new Request();
-        
+
         if ($request->isPost) {
             $model->load($request->post());
             if ($model->validate()) {

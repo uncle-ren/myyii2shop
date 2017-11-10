@@ -5,12 +5,14 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 class User extends ActiveRecord implements IdentityInterface {
+   Public $role;
     public function rules()
     {
         return [
             [["username","password_hash","email"],"required","message"=>"此处不能为空!"],
             ['email', 'email',"message"=>"请输入正确的邮箱格式"],
             [['username',"email"] ,'unique',"message"=>"已存在的名称或邮箱,请换一个"],
+            ["role","safe"]
             //状态和添加时间等 在添加时再加上
         ];
     }

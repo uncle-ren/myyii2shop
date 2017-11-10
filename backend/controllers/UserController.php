@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\User;
 use backend\models\LoginForm;
 use yii\data\Pagination;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\Request;
 use yii\web\Session;
@@ -12,12 +13,16 @@ use yii\web\Session;
 class UserController extends   Controller{
     public function actionAdd(){
         $model= new User();
+        $auth= \Yii::$app->authManager;
+        $roles= $auth->getRoles();
+        $roles=ArrayHelper::map($roles,"name","description");
         $a= new LoginForm();
         $request= new Request();
         if($request->isPost){
             //表单提交时
             //接收数据
             $model->load($request->post());
+
             if ($model->validate()){
                 //验证通过后
                 //将密码转化为哈希密码
@@ -27,12 +32,19 @@ class UserController extends   Controller{
                 $model->created_at=time();
                 //保存
                 $model->save(false);
+                $id=$model->id;
+                //添加后 循环职位    循环保存用户和角色关系
+                foreach($model->role  as $v){
+                    $role= $auth->getRole($v);
+                    $auth->assign($role,$id);
+                }
+
                 //添加成功  回到显示页面
                 \Yii::$app->session->setFlash('success', '添加成功');
                 return $this->redirect('list');
             }
         }
-        return $this->render("add",["model"=>$model]);
+        return $this->render("add",["model"=>$model,"roles"=>$roles]);
 
     }
     public function  actionDel($id){
