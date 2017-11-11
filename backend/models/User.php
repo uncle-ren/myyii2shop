@@ -86,4 +86,22 @@ class User extends ActiveRecord implements IdentityInterface {
         // TODO: Implement validateAuthKey() method.
         return $this->auth_key ===$authKey ;
     }
+    public  function getMenu(){
+        //取出菜单
+        $menuItems = [];
+        $menus= Menu::find()->where(["premenu"=>0])->all();
+
+        //循环一级菜单
+        foreach($menus as $menu){
+            $items=[];
+            //再接着循环二级菜单
+                foreach($menu->children as $child){
+                    $items[]=['lable'=>$child->name,'url'=>[$child->adress]];
+                }
+            $menuItem=['lable'=>$menu->name,'items'=>$items];
+            //放入数组中
+            $menuItems[]=$menuItem;
+        }
+        return $menuItems;
+    }
 }

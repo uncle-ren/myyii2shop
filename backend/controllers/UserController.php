@@ -118,5 +118,9 @@ class UserController extends   Controller{
         \Yii::$app->user->logout();
         return $this->redirect('login');
     }
+    Public function  actionTest(){
+        $model= new User();
+        var_dump($model->getMenu());
+    }
 
 }

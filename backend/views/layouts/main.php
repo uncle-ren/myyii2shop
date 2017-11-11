@@ -35,15 +35,18 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+    //下面是 公共显示部分
     $menuItems = [
         ['label' => 'Home', 'url' => ['/user/login']],
-        ['label' => 'Home', 'url' => ['/user/login']],
-        ['label' => 'Home', 'url' => ['/user/login']],
-        ['label' => 'Home', 'url' => ['/user/login']],
+
     ];
     if (Yii::$app->user->isGuest) {
+        //如果是游客的话
+        $menuItems = [];
         $menuItems[] = ['label' => '登录', 'url' => ['/user/login']];
     } else {
+
+        $menuItems = Yii::$app->user->identity->menu;
         $menuItems[] = '<li>'
             . Html::beginForm(['/user/logout'], 'post')
             . Html::submitButton(

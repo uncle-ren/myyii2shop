@@ -88,6 +88,5 @@ class MenuController extends Controller
         echo "1";
     }
 
-
 }
 

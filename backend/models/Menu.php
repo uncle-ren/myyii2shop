@@ -15,4 +15,8 @@ class  Menu extends ActiveRecord{
 
         ];
     }
+    Public function getChildren(){
+        //get方法
+        return $this->hasMany(self::className(),["premenu"=>"id"]);
+    }
 }
