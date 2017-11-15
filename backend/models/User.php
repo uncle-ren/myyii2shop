@@ -96,9 +96,9 @@ class User extends ActiveRecord implements IdentityInterface {
             $items=[];
             //再接着循环二级菜单
                 foreach($menu->children as $child){
-                    $items[]=['lable'=>$child->name,'url'=>[$child->adress]];
+                    $items[]=['label'=>$child->name,'url'=>[$child->adress]];
                 }
-            $menuItem=['lable'=>$menu->name,'items'=>$items];
+            $menuItem=['label'=>$menu->name,'items'=>$items];
             //放入数组中
             $menuItems[]=$menuItem;
         }

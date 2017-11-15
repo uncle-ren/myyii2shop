@@ -1,7 +1,7 @@
 <table class="table table-bordered">
     <tr>
-        <td>文章编号</td>
-        <td>文章标题</td>
+        <td>分类编号</td>
+        <td>分类名</td>
         <td>简介</td>
         <td>所属分组</td>
 

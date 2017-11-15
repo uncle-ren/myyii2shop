@@ -17,7 +17,7 @@ $this->registerJsFile('@web/webuploader/webuploader.js',[
     'depends'=>\yii\web\JqueryAsset::className(),//指定依赖关系,webuploader.js必须在jquery后面加载(依赖于jquery)
     //'position'=>\yii\web\View::POS_END//指定加载文件的位置
 ]);
-$url = \yii\helpers\Url::to(['upload']);
+$url = \yii\helpers\Url::to(['uploads']);
 $this->registerJs(
     <<<JS
 // 初始化Web Uploader
@@ -51,9 +51,9 @@ uploader.on( 'uploadSuccess', function( file ,response) {
     //console.log(file);
     //response.url  //上传成功的文件路径
     //将图片地址赋值给img
-    $("#img").attr('src',response.url);
+    $("#img").attr('src',response);
     //将图片地址写入logo
-    $("#brand-logo").val(response.url);
+    $("#brand-logo").val(response);
 });
 JS
 
@@ -74,6 +74,6 @@ echo \yii\bootstrap\Html::img($model->logo?$model->logo:false,['id'=>'img','heig
 //sort	int(11)	排序
 echo $form->field($model,'sort')->textInput(['type'=>'number']);
 //status	int(2)	状态(-1删除 0隐藏 1正常)
-echo $form->field($model,'status',['inline'=>true])->radioList(\backend\models\Brand::getStatusOptions());
+echo $form->field($model,'status',['inline'=>true])->radioList(["0"=>"下架","1"=>"上架"]);
 echo \yii\bootstrap\Html::submitButton('提交',['class'=>'btn btn-info']);
 \yii\bootstrap\ActiveForm::end();

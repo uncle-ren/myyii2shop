@@ -22,7 +22,7 @@ class Goods_categoryController extends Controller{
         if($request->isPost){
 
             $model->load($request->post());
-            /*var_dump($model);die;*/
+           // var_dump($model);die;
             if($model->validate()){
                 if ($model->parent_id == 0){
                     $model->makeRoot();
@@ -35,8 +35,10 @@ class Goods_categoryController extends Controller{
                 return $this->redirect(['goods_category/list']);
             }
         }
+        //var_dump($model);die;
+        $model->parent_id=0;
 
-       return $this->render("add",["model"=>$model]);
+        return $this->render("add",["model"=>$model]);
     }
     Public function actionList(){
         //取值

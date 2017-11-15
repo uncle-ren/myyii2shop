@@ -152,7 +152,7 @@ class GoodsController extends Controller{
     public function  actionList(){
         // var_dump($_SERVER["REMOTE_ADDR"]);die;
         $pager= new Pagination();
-        $pager->totalCount= Goods::find()->count();
+        $pager->totalCount= Goods::find()->where(["status"=>1])->count();
         $pager->pageSize=3;
         $data=$_GET;
         /*var_dump($data);die;*/

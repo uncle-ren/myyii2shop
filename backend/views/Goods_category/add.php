@@ -1,3 +1,5 @@
+
+
 <?php
 $form = \yii\bootstrap\ActiveForm::begin();
 echo $form->field($model,'name')->textInput()->label("商品分类名");
@@ -22,7 +24,7 @@ var zTreeObj;
                     var id= treeNode.id;
                     //alert(treeNode.tId + ", " + treeNode.name);
                     //将id写入parent_id的值
-                    $("#goodscategory-parent_id").val(id);
+                    $("#goods_category-parent_id").val(id);
                 }
             }
             ,

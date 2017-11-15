@@ -9,6 +9,7 @@ use Qiniu\Storage\UploadManager;
 use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\Request;
+use yii\web\UploadedFile;
 
 class BrandController extends Controller
 {
@@ -20,6 +21,7 @@ class BrandController extends Controller
 
         if ($request->isPost) {
             $model->load($request->post());
+            var_dump(   $model);die;
             if ($model->validate()) {
                 //验证通过后保存
                 /*var_dump($model);die;*/
@@ -36,7 +38,7 @@ class BrandController extends Controller
     {
         //显示分页  实例化分页工具类
         $pager = new Pagination();
-        $pager->totalCount = Brand::find()->count();
+        $pager->totalCount = Brand::find()->where(["status"=>1])->count();
         //        var_dump($pager->totalCount);die;
         $pager->pagesize = 2;//设置默认最大显示条数
         /*var_dump(Brand::find()->all());*/
@@ -113,4 +115,20 @@ class BrandController extends Controller
         }
 
     }
+    Public function actionUpload()
+    {
+        $imgFile = UploadedFile::getInstanceByName('file');//file相当于输入框名字
+        //如果有文件上传
+        if ($imgFile) {
+            //上传文件的保存地址
+            $fileName = '/uploads/' . uniqid() . '.' . $imgFile->extension;
+            $imgFile->saveAs(\Yii::getAlias('@webroot') . $fileName, false);
+            //保存成功
+
+
+            //返回路径
+            return json_encode($fileName);
+        }
+    }
+
 }
