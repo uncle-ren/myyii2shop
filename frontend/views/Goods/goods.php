@@ -49,7 +49,15 @@
 			</div>
 			<div class="topnav_right fr">
 				<ul>
-					<li>您好，欢迎来到京西！[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>] </li>
+                    <?php
+                    if(Yii::$app->user->isGuest){
+                        echo   " <li>您好，欢迎来到京西！[<a href='/member/login'>登录</a>] [<a href='/member/enroll''>免费注册</a>] </li>  ";
+                    }else{
+                        //var_dump(Yii::$app->user->identity->username );die;
+                        echo "<li> ".Yii::$app->user->identity->username." 您好，欢迎来到京西！";
+                    }
+
+                    ?>
 					<li class="line">|</li>
 					<li>我的订单</li>
 					<li class="line">|</li>
@@ -600,9 +608,9 @@
 						<li><span>上架时间：</span><?=date("Y-m-d",$good["create_time"])?></li>
 						<li class="star"><span>商品评分：</span> <strong></strong><a href="">(已有21人评价)</a></li> <!-- 此处的星级切换css即可 默认为5星 star4 表示4星 star3 表示3星 star2表示2星 star1表示1星 -->
 					</ul>
-					<form action="" method="post" class="choose">
+					<form action="cart" method="post" class="choose">
 						<ul>
-
+                            <input type="hidden" name="goods_id" value="<?=$_GET["id"]?>">
 							<li>
 								<dl>
 									<dt>购买数量：</dt>

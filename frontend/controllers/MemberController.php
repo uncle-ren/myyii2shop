@@ -22,7 +22,8 @@ class MemberController extends Controller{
             //规则中验证数据
             if ($model->login()) {
                 //如果验证通过
-                echo "验证通过";
+                return $this->redirect(["/adress/index"]);
+
                 die;
             } else {
                 echo "验证失败";
@@ -39,13 +40,13 @@ class MemberController extends Controller{
         $member= new Member();
         if ($request->isPost){
             $member->load($request->post(),'');
-            var_dump($member);die;
+            //var_dump($member);die;
             if($member->validate()){
                 $member->password=\Yii::$app->security->generatePasswordHash($member->password);
                 $member->last_login_time=time();
                 $member->last_login_ip=$_SERVER["REMOTE_ADDR"];
                 $member->status=1;
-                $member->create_at=time();
+                $member->created_at=time();
 
                 //将值保存
                 $member->save(false);
@@ -68,7 +69,9 @@ class MemberController extends Controller{
         }
     }
     Public function actionSms($tel){
+
         $sms=rand(1000,9999);
+
         //$tel= "18731240623";
         $response = Sms::sendSms(
             "知交半零落", // 短信签名
@@ -92,7 +95,13 @@ class MemberController extends Controller{
             echo "false";
         }
         echo "发送短信(sendSms)接口返回的结果:\n";
-        var_dump($_SESSION);
 
+
+    }
+    public function actionLogout()
+    {
+        \Yii::$app->user->logout();
+
+        return $this->redirect(["login"]);
     }
 }

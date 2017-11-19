@@ -23,7 +23,16 @@
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li>您好，欢迎来到京西！[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>] </li>
+
+                <?php
+                if(Yii::$app->user->isGuest){
+                    echo   " <li>您好，欢迎来到京西！[<a href='/member/login'>登录</a>] [<a href='/member/enroll''>免费注册</a>] </li>  ";
+                }else{
+                    //var_dump(Yii::$app->user->identity->username );die;
+                    echo "<li> ".Yii::$app->user->identity->username." 您好，欢迎来到京西！";
+                }
+
+                ?>
                 <li class="line">|</li>
                 <li>我的订单</li>
                 <li class="line">|</li>
@@ -135,7 +144,7 @@
                 <em></em>
             </div>
             <!--使用缓存-->
-            <?php   Goods::getcodes();    ?>
+            <?php //  Goods::getcodes();    ?>
             <?php foreach($categorys as $category): if($category["parent_id"]==0){ ?>
             <div class="cat_bd none">
                 <div class="cat item1">

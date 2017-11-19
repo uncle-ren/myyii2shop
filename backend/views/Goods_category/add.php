@@ -4,7 +4,7 @@
 $form = \yii\bootstrap\ActiveForm::begin();
 echo $form->field($model,'name')->textInput()->label("商品分类名");
 /*echo $form->field($model,'parent_id')->textInput()->label("上级分类");*/
-echo $form->field($model,'parent_id')->hiddenInput();
+echo $form->field($model,'parent_id')->hiddenInput()->label("父分类");
 
 
 //加载所需配置文件

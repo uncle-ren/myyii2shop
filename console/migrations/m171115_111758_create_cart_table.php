@@ -14,6 +14,9 @@ class m171115_111758_create_cart_table extends Migration
     {
         $this->createTable('cart', [
             'id' => $this->primaryKey(),
+            'goods_id' => $this->integer()->comment("商品id"),
+            'amount' => $this->integer()->comment("商品数量"),
+            'member_id' => $this->integer()->comment("用户id"),
         ]);
     }
 

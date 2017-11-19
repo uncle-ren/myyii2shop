@@ -42,7 +42,8 @@ class GoodsController extends Controller{
                 $model->sn="2017110800008";
                 $model->load($request->post());
                 //保存进数据库
-                $model->save(false);
+            //var_dump($model);die;
+                $model->save(0);
                 //保存后 获取id  添加到数据库
 
                 $good_intro->load($request->post());

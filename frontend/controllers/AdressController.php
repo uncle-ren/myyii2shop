@@ -79,6 +79,7 @@ class AdressController extends Controller{
         //根据id显示商品
         $goods= Goods::find()->where(["goods_category_id"=>$id])->all();
         $categorys= Goods_category::find()->all();
+        //var_dump($goods);die;
         return $this->render("list",["goods"=>$goods,"categorys"=>$categorys]);
     }
 
