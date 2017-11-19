@@ -11,24 +11,28 @@ use yii\db\Exception;
 use yii\web\Controller;
 use yii\web\Request;
 
-class OrderController extends Controller{
-    Public $enableCsrfValidation=false;
-    public  function actionAdd(){
-        if(\Yii::$app->user->isGuest){
-                //未登录的话
-            return $this->redirect(["/member/login"]);die;
+class OrderController extends Controller
+{
+    Public $enableCsrfValidation = false;
+
+    public function actionAdd()
+    {
+        if (\Yii::$app->user->isGuest) {
+            //未登录的话
+            return $this->redirect(["/member/login"]);
+            die;
         }
         //添加一个订单
         //取出商品信息和地址信息
-        $order=new Order();
-        $adress=Adress::find()->all();
-        $carts= Cart::find()->where(["member_id"=>(\Yii::$app->user->id)])->all();
+        $order = new Order();
+        $adress = Adress::find()->all();
+        $carts = Cart::find()->where(["member_id" => (\Yii::$app->user->id)])->all();
 
-        $request= new Request();
-        if($request->isPost) {
+        $request = new Request();
+        if ($request->isPost) {
             //var_dump(1);die;
             //jieshou shuju
-            $order->load($request->post(),'');
+            $order->load($request->post(), '');
             //var_dump($order);die;
             $pay = $order->pay;  //支付方式id
             $delivery = $order->delivery;  //配送方式id
@@ -75,7 +79,8 @@ class OrderController extends Controller{
             //在此处开启时间
             $transact = \Yii::$app->db->beginTransaction();
             //try{}catch(){}  这是抛出异常和捕获异常
-            //$order->save(0);
+
+            //var_dump($order);die;
             try {
                 if ($order->save(0)) {//$order->save(0)
                     /**
@@ -95,10 +100,11 @@ class OrderController extends Controller{
                     $carts = Cart::find()->where(["member_id" => (\Yii::$app->user->id)])->all();
                     foreach ($carts as $cart) {
                         $aaa = Goods::findOne(["id" => $cart->goods_id]);
+                        //var_dump($cart);die;
                         //var_dump($good->amount);
                         //判断是否购买数量超过了库存
-                        if(($cart->amount > $aaa->stock)){
-                            throw new Exception($aaa->name.'商品库存不足');
+                        if (($cart->amount > $aaa->stock)) {
+                            throw new Exception($aaa->name . '商品库存不足');
                         }
 
                         $order_goods->goods_id = $aaa->id;
@@ -108,41 +114,43 @@ class OrderController extends Controller{
                         $order_goods->amount = $cart->amount;
                         $order_goods->total = ($cart->amount) * ($aaa->shop_price);
                         //保存
-                        $order_goods->save();
+                        $order_goods->save(0);
                         //保存了  将物品的库存-1 增加金额
                         $order->total += $order_goods->total;//订单金额累加 (加上快递费)
-                        Goods::updateAllCounters(['stock'=>-$cart->amount],['id'=>$cart->goods_id]);
+                        Goods::updateAllCounters(['stock' => -$cart->amount], ['id' => $cart->goods_id]);
 
-                        //Cart::deleteAll('member_id='.\Yii::$app->user->id);
+                        Cart::deleteAll('member_id='.\Yii::$app->user->id);
+                        //删除当前用户的购物车信息
+
                         $order->save();
                         //保存一个订单  添加v
 
                     }
 
-                    return $this->redirect(["list"]);
-
-
 
                 }//在这里提交事件
                 $transact->commit();
 
-            }catch( Exception $e){
+            } catch (Exception $e) {
                 $transact->rollBack();
 
                 //下单失败,跳转回购物车,并且提示商品库存不足
-                echo $e->getMessage();exit;
+                echo $e->getMessage();
+                exit;
             }
+            return $this->redirect(["list"]);
         }
         //var_dump($carts);die;
 
-        return $this->render("addorder",["adress"=>$adress,"carts"=>$carts]);
+        return $this->render("addorder", ["adress" => $adress, "carts" => $carts]);
     }
-    Public function actionList(){
-        //显示订单信息
+
+    Public function actionList()
+    {
+        //先找出当前登录用户的订单信息
         $orders= Order::find()->where(["member_id"=>(\Yii::$app->user->id)])->all();
+        //在页面上根据order_id
+        return $this->render("list", ["orders" => $orders]);
 
-
-        return $this->render("list",["orders"=>$orders]);
     }
-
 }
