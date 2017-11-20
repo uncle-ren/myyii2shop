@@ -193,6 +193,7 @@
                 <td>电话</td>
                 <td>商品</td>
                 <td>图片</td>
+                <td>下单时间</td>
                 <td>状态</td>
                 <td>配送方式</td>
                 <td>操作</td>
@@ -207,6 +208,7 @@
                     <td><?=$order["tel"]?></td>
                     <td><?=$a->goods_name?></td>
                     <td><?="<img src='http://www.myshopadmin.com$a->logo' width='70px'>" ?></td>
+                    <td><?=date("Y-m-d H:i:s",$order->create_time)?></td>
                     <td>待付款</td>
                     <td>普通快递</td>
                     <td>操作</td>

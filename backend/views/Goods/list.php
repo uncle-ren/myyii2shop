@@ -7,7 +7,7 @@
 
 <table class="table table-bordered">
     <tr>
-        <td>商品编号</td>
+<!--        <td>商品编号</td>-->
         <td>商品名称</td>
         <td>市场价格</td>
         <td>本店价格</td>
@@ -20,7 +20,7 @@
 
     <?php  foreach($models as $model): ?>
         <tr>
-            <td><?=$model["sn"]?></td>
+
             <td><?=$model["name"]?></td>
             <td><?=$model["market_price"]?></td>
             <td><?=$model["shop_price"]?></td>

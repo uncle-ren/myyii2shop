@@ -14,7 +14,7 @@ class AdressController extends Controller{
     Public $enableCsrfValidation=false;
     Public function actionList(){
         $model= new Adress();
-        $models= Adress::find()->all();
+        $models= Adress::find()->where(["username"=>(\Yii::$app->user->id)])->all();
         $categorys= Goods_category::find()->all();
         return $this->render('adress',["models"=>$models,"categorys"=>$categorys]);
         //return $this->render("test");
@@ -34,7 +34,7 @@ class AdressController extends Controller{
             }else{
                 $model->is_default=0;
             }
-
+            $model->username=\Yii::$app->user->id;
             $model->save(false);
         }
 
