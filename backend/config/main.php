@@ -51,7 +51,7 @@ return [
     ],
     'params' => $params,
     'timeZone'=>'PRC',
-    'defaultRoute' => 'user/login',
+    //'defaultRoute' => 'user/login',
 
 ];
 
