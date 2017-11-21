@@ -80,7 +80,7 @@
                     </li>
                     <li>
                         <label for="">获取验证码：</label>
-                        <input type="text" class="txt" value="" placeholder="请输入短信验证码" name="captcha" disabled="disabled" id="captcha"/> <input type="button" onclick="bindPhoneNum(this)" id="get_captcha" value="获取验证码" style="height: 25px;padding:3px 8px"/>
+                        <input type="text" class="txt" value="" placeholder="请输入短信验证码" name="captcha" disabled="disabled" id="captcha"/><span  id="danger"></span> <input type="button" onclick="bindPhoneNum(this)" id="get_captcha" value="获取验证码" style="height: 25px;padding:3px 8px"/>
 
                     </li>
                     <li class="checkcode">
@@ -144,20 +144,17 @@
 <script type="text/javascript">
     function bindPhoneNum(){
         //点击获取验证码后 将电话号码发送到后台
-        $("#captcha").click(function () {
-            var tel=$("tel").val();
-            $.get("sms",{"tel":tel},function(data){
 
-            })
-        });
         //再给验证码输入框添加丢失焦点信息
+
+
         //启用输入框
         $('#captcha').prop('disabled',false);
 
         var time=30;
         var interval = setInterval(function(){
             time--;
-            if(time<=0){
+            if(time <=0){
                 clearInterval(interval);
                 var html = '获取验证码';
                 $('#get_captcha').prop('disabled',false);
@@ -175,6 +172,9 @@
 
 <script>
     $().ready(function() {
+
+
+
 // 在键盘按下并释放及提交后验证提交表单
         $("#enroll").validate({
             rules: {
@@ -247,6 +247,31 @@
 
             })
         };
+
+        //点击获取短信验证码
+        $("#get_captcha").click(function () {
+            var tel=$("#tel").val();
+
+            $.get("/member/sms",{"tel":tel},function(data){
+                console.debug(data);
+            })
+        });
+        //验证手机验证码
+        $("#captcha").blur(function () {
+            var tel=$("#tel").val();
+            var sms= $("#captcha").val();
+            var that=this;
+            $.get("/member/checksms",{"sms":sms,"tel":tel},function (data) {
+                if(data=="false"){
+                    $("#danger").html("验证码错误");
+                    $("#danger").attr("style","color:red");
+                }else{
+                    $("#danger").html("");
+                }
+            })
+        });
+
+        //看不清 换一张验证码
         $("#change_captcha").click(function () {
             flush_captacha();
         });
@@ -262,6 +287,8 @@
         }
         return h == hash;
     },"验证码不正确");
+
+
 </script>
 
 </body>

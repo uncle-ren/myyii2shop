@@ -15,12 +15,8 @@ use yii\web\Request;
 use yii\web\UploadedFile;
 
 class GoodsController extends Controller{
-    Public static $sn_old=1;
+
     public function  actionAdd(){
-        $sn_old= date("Ymd",time());
-        $a= ++self::$sn_old;
-        $sn=$sn_old.str_pad($a,"5","0",STR_PAD_LEFT);
-      /*var_dump(\backend\models\Goods_category::getZtreeNodes());die;*/
 
         $model=new Goods();
         $good_intro= new Goods_intro();
@@ -36,10 +32,28 @@ class GoodsController extends Controller{
 
                 //验证成功后
                 $model->logo=$file;
+            $a=Goods::find()->orderBy(["id"=>"asc"])->all();
+            if($a){
+                //能取出值,则sn在原来基础上+1
+                foreach($a as $fg) {
+                    $id=$fg->id;
+                };
+                $sn1=(Goods::findOne(["id"=>$id])->sn)+1;
+                $a=substr($sn1,8) ;
+                $sn=date("Ymd",time()).$a;
+
+            }else{
+                //第一次添加数据的话
+                $sn=date("Ymd",time())."00001";
+            }
+               //$a= \Yii::$app->db->getLastInsertID();
+            //  拼接上新的编号
+//var_dump($sn);die;
+
                 //设置添加时间和货号sn
                 $model->create_time=time();
                 $model->view_times=0;//默认浏览次数
-                $model->sn="2017110800008";
+                $model->sn=$sn;
                 $model->load($request->post());
                 //保存进数据库
             //var_dump($model);die;
@@ -154,7 +168,7 @@ class GoodsController extends Controller{
         // var_dump($_SERVER["REMOTE_ADDR"]);die;
         $pager= new Pagination();
         $pager->totalCount= Goods::find()->where(["status"=>1])->count();
-        $pager->pageSize=3;
+        $pager->pageSize=5;
         $data=$_GET;
         /*var_dump($data);die;*/
 

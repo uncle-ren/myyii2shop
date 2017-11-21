@@ -94,7 +94,7 @@ class MemberController extends Controller{
         }else{
             echo "false";
         }
-        echo "发送短信(sendSms)接口返回的结果:\n";
+
 
 
     }
@@ -104,4 +104,16 @@ class MemberController extends Controller{
 
         return $this->redirect(["login"]);
     }
+    Public function actionChecksms($sms,$tel){
+        //将sms发送过来 并验证
+        @session_start();
+        //var_dump($_SESSION["sms".$tel]);
+        if($sms== $_SESSION["sms".$tel]){
+            echo "success";
+        }else{
+            echo "false";
+        }
+    }
+
+
 }
